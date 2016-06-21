@@ -1,4 +1,4 @@
-import StringIO
+import StringIO, os
 import web
 from PIL import Image
 
