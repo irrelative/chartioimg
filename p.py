@@ -1,15 +1,31 @@
+import StringIO
+import web
 from PIL import Image
 
+class Index(object):
 
-size = 64, 64
+    def GET(self):
+        return '''
+        <html><body>
+            <form enctype="multipart/form-data" method="post" action=""><input type="file" name="img" /><button>Convert</button></form>
+        '''
 
-im = Image.open('dog2.jpg')
-im.thumbnail(size, Image.ANTIALIAS)
+    def POST(self):
+        inp = web.input()
+        im = Image.open(StringIO.StringIO(inp.img))
+        size = 64, 64
+        im.thumbnail(size, Image.ANTIALIAS)
+        values = []
+        for x in range(im.width):
+            for y in range(im.height):
+                values.append('%d, %d, %d' % (x, y, (255 * 3 - sum(im.getpixel((x,y))))))
+
+        return 'SELECT ' + ' UNION ALL\nSELECT '.join(values)
 
 
-values = []
-for x in range(im.width):
-    for y in range(im.height):
-        values.append('%d, %d, %d' % (x, y, (255 * 3 - sum(im.getpixel((x,y))))))
+urls = ('/', Index)
 
-print 'SELECT ' + ' UNION ALL\nSELECT '.join(values)
+app = web.application(urls)
+
+if __name__ == '__main__':
+    app.run()
