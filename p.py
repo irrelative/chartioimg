@@ -13,7 +13,7 @@ class Index(object):
     def POST(self):
         inp = web.input()
         im = Image.open(StringIO.StringIO(inp.img))
-        size = 64, 64
+        size = 100, 100
         im.thumbnail(size, Image.ANTIALIAS)
         values = []
         for x in range(im.width):
