@@ -7,7 +7,10 @@ class Index(object):
     def GET(self):
         return '''
         <html><body>
-            <form enctype="multipart/form-data" method="post" action=""><input type="file" name="img" /><button>Convert</button></form>
+            <form enctype="multipart/form-data" method="post" action="">
+                <input type="file" name="img" />
+                <button>Convert</button>
+            </form>
         '''
 
     def POST(self):
